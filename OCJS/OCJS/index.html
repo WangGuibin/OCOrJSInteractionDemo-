@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+            <title>OC与JS交互</title>
+            
+            <script type="text/javascript">
+                function secondClick(index) {
+                    wgb_iOSHookJSButtonClick(index);
+                }
+            
+            function showAlert(message) {
+                alert('WGB__OC注入JS改变网页内容' + message);
+            }
+            
+            function wgb_testCallOCKeyboard() {
+                jsCallOCAlertKeyboard();
+            }
+            
+            function wgb_endEidting() {
+                wgb_keyboardResignFirstResponder();
+            }
+            
+            var getIOSImage = function () { ///方法一
+                var parameter = {'title': 'JS调OC', 'describe': '这里就是JS传给OC的参数'};
+                // 在下面这里实现js 调用系统原生api
+                window.iosDelegate.getImage(JSON.stringify(parameter));// 实现数据的 json 格式字符串
+            }
+            
+            function getImageFromOC() { ///方法二
+                iOSImageUpLoad();
+            }
+            
+            // 这里是 iOS调用js的方法
+            function setJSImageWithPath(arguments) {
+                /// 用代理的赋值操作
+                //var element = document.getElementById('changePhoto');
+                //element.src =arguments['urlStringPath'];
+                //var iOSParameters =  document.getElementById('iOSParameters');
+                // iOSParameters.innerHTML = arguments['iosContent'] + arguments['img'];
+                
+                ///方法二的赋值操作
+                var element_wgb = document.getElementById('wgb_changePhoto');
+                element_wgb.src = arguments['urlStringPath'];
+                var parameter_wgb = document.getElementById('wgb_iOSParameters');
+                parameter_wgb.innerHTML = arguments['iosContent'] + arguments['img'];
+            }
+            
+                </script>
+            
+            <style type="text/css">
+                .alert {
+                    color: green;
+                    font-size: 30px;
+                    border: blue 1px solid;
+                }
+            
+            .args {
+                color: red;
+                font-size: 25px;
+                border: solid 1px red;
+            }
+            
+            .keyboard {
+                color: blueviolet;
+                font-size: 30px;
+                border: solid 1px orange;
+                
+            }
+            
+            
+                </style>
+            
+            
+    </head>
+    
+    <body>
+        <button class="alert" type="button" onclick="showAlert()"> JS测试弹窗showAlert</button>
+        <br><br>
+        <button class="args" onclick="secondClick(1)"> 我是参数1</button>
+        <br><br>
+        <button class="args" onclick="secondClick(2)"> 我是参数2</button>
+        <br><br>
+        <button class="args" onclick="secondClick(3)"> 我是参数3</button>
+        <br><br>
+        <button class="keyboard" onclick="wgb_testCallOCKeyboard()"> 召唤原生键盘</button>
+        <br><br>
+        <button class="keyboard" onclick="wgb_keyboardResignFirstResponder()"> 退回原生键盘</button>
+        <br>
+        <br>
+        
+        <!--        <div>-->
+        <!--            <input type = "button" style="width: 50%;height: 5%;" id="Button" value="打开相机获取图片" onclick="getIOSImage()"></button>-->
+        <!--        </div>-->
+
+<br>
+<br>
+
+<!--        <div>-->
+        <!--            <img src="testImage.png" id="changePhoto"style="width: 80%; height: 80%;" onclick="getIOSImage()"><!--src="图片的相对路径" 如果把html文件导入工程中，图片路径和OC一样只写图片名字和后缀就可以，（记得要先把图片添加到工程） 图片也可以实现按钮的方法getIOSImage -->
+        <!--        </div>-->
+        <!--        <span id="iOSParameters" style="width: 200px; height: 50%; color:orangered; font-size:15px" value="等待获取ios参数" >-->
+        <br>
+        
+        <button class="args" type="button"
+            " onclick="getImageFromOC()"> 打开相册相机方式二 </button>
+            <br>            <br>
+            <br>
+            <br>
+
+            <img src="test.jpg" id="wgb_changePhoto" style="width: 80%;height: 80%" onclick="getImageFromOC()">
+            <br>
+            
+            <span id="wgb_iOSParameters" style="width: 200px; height: 50%; color: red;font-size: 15px" value="等待获取ios参数">
+            
+            <div style="background: red;width: 200px;height: 200px">
+            小方块
+            </div>
+            
+            </body>
+            </html>
